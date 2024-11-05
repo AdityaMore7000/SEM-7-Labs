@@ -1,0 +1,45 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"LP3/BT/Student.sol": "Student"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"LP3/BT/Student.sol": {
+			"keccak256": "0x15d52dc86c7d127d190e750360b4994a1af155945d29a9b59056a53d6e2dd7db",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://9c215acaad0867db3428a91817c2864936ff0626ec62aa311b3be8bba8e08da7",
+				"dweb:/ipfs/QmZmn5ekZQVGt8qoeBvpvSoL59S4DNcSeVxSjXrFnbJURD"
+			]
+		}
+	},
+	"version": 1
+}
