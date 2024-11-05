@@ -1,78 +1,76 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <cstdlib>
 using namespace std;
 
-void addSolution(vector<vector<int>>&ans, vector<vector<int>>&board, int n){
-    vector<int> temp;
-    for(int i=0; i<n; i++){
-        for(int j=0; j<n; j++){
-            temp.push_back(board[i][j]);
-        }
+int partition(vector<int> &arr, int low, int high)
+{
+    int pivot = arr[low];
+    int i = low;
+    int j = high;
+
+    while (i < j)
+    {
+        do
+        {
+            i++;
+        } while (arr[i] <= pivot);
+
+        do
+        {
+            j--;
+        } while (arr[j] > pivot);
+
+        if (i < j)
+            swap(arr[i], arr[j]);
     }
-    ans.push_back(temp); 
+
+    swap(arr[low], arr[j]);
+    return j;
 }
 
-bool isSafe(int row, int col, vector<vector<int>>&board, int n){
-    // check for the row
-    for(int i=0; i<col; i++){
-        if(board[row][i] == 1){
-            return false;
-        }
-    }
-
-    // check for the upper diagonal
-    for(int i=row, j=col; i>=0 && j>=0; i--, j--){
-        if(board[i][j] == 1){
-            return false;
-        }
-    }
-
-    // check for the lower diagonal
-    for(int i=row, j=col; i<n && j>=0; i++, j--){
-        if(board[i][j] == 1){
-            return false;
-        }
-    }
-
-    return true;
-}
-
-void solve(int col, vector<vector<int>>&ans, vector<vector<int>>&board, int n){
-    // base case
-    if(col == n){
-        addSolution(ans, board, n);
-        return;
-    }
-
-    for(int row=0; row<n; row++){
-        if(isSafe(row, col, board, n)){
-            board[row][col] = 1;
-            solve(col+1, ans, board, n);
-            // backtrack
-            board[row][col] = 0;
-        }
+void QuickSort(vector<int> &arr, int low, int high)
+{
+    if (low < high)
+    {
+        int p = partition(arr, low, high);
+        QuickSort(arr, low, p);
+        QuickSort(arr, p + 1, high);
     }
 }
 
-void display(vector<vector<int>> &ans, int n){
-    for(int i=0; i<ans.size(); i++){
-        for(int j=0; j<ans[i].size(); j++){
-            cout << ans[i][j] << " ";
-            if((j+1)%n == 0){
-                cout << endl;
-            }
-        }
-        cout << endl;
+void QuickSortR(vector<int> &arr, int low, int high)
+{
+    if (low < high)
+    {
+        int random = rand() % (high - low) + low;
+        swap(arr[random], arr[low]);
+        int p = partition(arr, low, high);
+        QuickSortR(arr, low, p);
+        QuickSortR(arr, p + 1, high);
     }
 }
 
-int main(){
-    int n;
-    cout << "Enter the value of n: ";
-    cin >> n;
-    vector<vector<int>> board(n, vector<int>(n, 0));
-    vector<vector<int>> ans;
-    solve(0, ans, board, n);
-    cout << "Total number of solutions: " << ans.size() << endl << endl;
-    display(ans, n);
+int main()
+{
+    vector<int> x = {10, 12, 15, 20, 1, 4, 17, 16, 11};
+    int low = 0;
+    int high = x.size();
+    x.push_back(1e9);
+    QuickSort(x, low, high);
+    for (auto i : x)
+        cout << i << " ";
+    cout << endl;
+
+    int random = rand() % (high - low + 1) + low;
+    cout << random << endl;
+
+    x = {10, 12, 15, 20, 1, 4, 17, 16, 11};
+    x.push_back(1e9);
+    QuickSortR(x, low, high);
+    for (auto i : x)
+        cout << i << " ";
+    cout << endl;
+
     return 0;
 }
