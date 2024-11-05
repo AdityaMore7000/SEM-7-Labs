@@ -15,8 +15,6 @@ contract Bank {
         balance += msg.value;
     }
 
-    //0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
-
     function withdraw(uint amount) public {
         require(customer == msg.sender, "Unauthorized access!!");
         require(amount > 0, "Amount must be greater than 0");
