@@ -1,33 +1,78 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int solve(vector<int> &weight, vector<int> &value, int index, int capacity, vector<vector<int>> &dp){
-    if(index == 0){
-        if(weight[index] <= capacity){
-            return value[index];
-        }
-        else{
-            return 0;
+void addSolution(vector<vector<int>>&ans, vector<vector<int>>&board, int n){
+    vector<int> temp;
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            temp.push_back(board[i][j]);
         }
     }
+    ans.push_back(temp); 
+}
 
-    if(dp[index][capacity] != -1){
-        return dp[index][capacity];
+bool isSafe(int row, int col, vector<vector<int>>&board, int n){
+    // check for the row
+    for(int i=0; i<col; i++){
+        if(board[row][i] == 1){
+            return false;
+        }
     }
 
-    int include = 0, exclude = 0;
-    if(weight[index] <= capacity){
-        include = value[index] + solve(weight, value, index-1, capacity-weight[index], dp);
+    // check for the upper diagonal
+    for(int i=row, j=col; i>=0 && j>=0; i--, j--){
+        if(board[i][j] == 1){
+            return false;
+        }
     }
-    exclude = solve(weight, value, index-1, capacity, dp);
 
-    return dp[index][capacity] = max(include, exclude);
+    // check for the lower diagonal
+    for(int i=row, j=col; i<n && j>=0; i++, j--){
+        if(board[i][j] == 1){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void solve(int col, vector<vector<int>>&ans, vector<vector<int>>&board, int n){
+    // base case
+    if(col == n){
+        addSolution(ans, board, n);
+        return;
+    }
+
+    for(int row=0; row<n; row++){
+        if(isSafe(row, col, board, n)){
+            board[row][col] = 1;
+            solve(col+1, ans, board, n);
+            // backtrack
+            board[row][col] = 0;
+        }
+    }
+}
+
+void display(vector<vector<int>> &ans, int n){
+    for(int i=0; i<ans.size(); i++){
+        for(int j=0; j<ans[i].size(); j++){
+            cout << ans[i][j] << " ";
+            if((j+1)%n == 0){
+                cout << endl;
+            }
+        }
+        cout << endl;
+    }
 }
 
 int main(){
-    vector<int>weight = {3, 4, 6, 5};
-    vector<int>value = {2, 3, 1, 4};
-    int capacity = 8;
-    vector<vector<int>> dp(weight.size(), vector<int>(capacity+1, -1));
-    cout << "Maximum value: " << solve(weight, value, weight.size()-1, capacity, dp) << endl;
+    int n;
+    cout << "Enter the value of n: ";
+    cin >> n;
+    vector<vector<int>> board(n, vector<int>(n, 0));
+    vector<vector<int>> ans;
+    solve(0, ans, board, n);
+    cout << "Total number of solutions: " << ans.size() << endl << endl;
+    display(ans, n);
+    return 0;
 }
